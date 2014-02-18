@@ -1,0 +1,1 @@
+~/mysql/bin/mysql -usensea -Dsense -p < create_sessions.sql

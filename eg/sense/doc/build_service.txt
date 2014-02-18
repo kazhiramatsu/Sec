@@ -1,0 +1,143 @@
+個人ユーザーとアプリケーションユーザーを作成し
+個人ユーザーをアプリケーションユーザーのグループとする
+アプリケーションユーザーのディレクトリを775に設定する
+
+groupadd -g 2000 sense
+useradd -u 2000 -g 2000 -s /bin/bash -d /home/sense -m sense
+
+groupadd -g 2001 hiramatsu
+useradd -u 2001 -g 2000 -s /bin/bash -d /home/hiramatsu -m hiramatsu
+
+chmod 775 /home/sense
+
+
+ユーザーに権限を付与する
+# visudo
+
+以下を追加する
+hiramatsu   ALL=(ALL)   NOPASSWD: ALL
+sense   ALL=(ALL)   NOPASSWD: ALL
+
+cpanmのインストー
+$ mkdir ~/bin
+$ cd ~/bin
+$ wget http://xrl.us/cpanm --no-check-certificate
+$ chmod 775 cpanm
+
+[環境変数の設定]
+.bashrcに以下の環境変数を設定する
+export PERL5LIB="$HOME/extlib/lib/perl5:$HOME/extlib/lib/perl5/i386-linux-thread-multi:$PERL5LIB"
+export PATH=$HOME/bin:$HOME/extlib/bin:$PATH
+
+source ~/.bashrc
+
+Starmanのインストール
+$ cpanm -l extlib Starman
+
+[MySQLクライアントのインストール]
+mysqlのホームページからソースコードをダウンロードする
+http://dev.mysql.com/downloads/mysql/
+
+./configure \
+--prefix=$HOME/mysql \
+--without-server \
+--without-docs \
+--with-charset=utf8 \
+--with-extra-charsets=all
+
+[DBD::mysqlのインストール]
+mysql_configのパスを指定しないと失敗する
+cpanmでDBD::mysqlをダウンロードした場所にcdして
+直接インストールする
+cpanmのCofigure failedからモジュールの場所を特定する
+
+! Configure failed for DBD-mysql-4.024. See /Users/hiramatsu/.cpanm/work/1383464642.50025/build.log for details.
+
+===>
+cd /Users/hiramatsu/.cpanm/work/1383464642.50025/DBD-mysql-4.024
+perl Makefile.PL --mysql_config=$HOME/mysql/bin/mysql_config
+make
+make install
+
+daemontoolsのインストール
+# mkdir -p /package
+# chmod 1755 /package
+# cd /package
+# wget http://cr.yp.to/daemontools/daemontools-0.76.tar.gz
+# tar -zxvf daemontools-0.76.tar.gz
+# cd admin/daemontools-0.76
+
+このままではコンパイルエラーになるので、パッチをあてる
+
+# vi src/error.h
+
+extern int errno;
+
+を
+
+#include <errno.h>
+
+に置き換える
+
+# ./package/install
+
+【ログ付でサービスを走らせるには】
+
+1.走らせるサービスのディレクトリにスティッキービットを立てる。
+# cd /service
+# mkdir .<service>
+# mkdir .<service>/log
+# chmod +t .<serivce>
+# mv .<service> <service>
+
+2.デーモンを開始しないようにしておく。
+# svc -d /service/<service>
+# svc -d /service/<service>/log
+
+3.runスクリプトを書く。
+/service/<service>/run
+
+#!/bin/sh
+
+STARMAN_DEBUG=1
+export STARMAN_DEBUG
+PERL5LIB=/home/<user>/extlib/lib/perl5:/home/<user>/extlib/lib/perl5/i386-linux-thread-multi
+export PERL5LIB
+PATH=/home/<user>/extlib/bin:$PATH
+export PATH
+
+exec \
+/usr/local/bin/setuidgid <user> \
+/home/<user>/extlib/bin/starman \
+--listen 192.168.0.86:8080 \
+--workers 30 \
+--max-reqs-per-child=4000 \
+--disable-keepalive \
+/home/<user>/app.psgi \
+2>&1
+
+chmod +x /service/<service>/run
+
+/service/<service>/log/run
+
+#!/bin/sh
+
+exec \
+/usr/local/bin/setuidgid <user> \
+/usr/local/bin/multilog ./main
+
+chmod +x /service/<service>/log/run
+
+3.ディレクトリのパーミッションを変更する。
+# chown <user>:<user> /service/<service>/log
+
+4.サービスを起動する。
+# svc -u /service/<service>/log
+# svc -u /service/<service>
+
+5./service/<service>/log/main/currentにログが記述される
+
+vimのインストール
+brew install https://raw.github.com/AndrewVos/homebrew-alt/master/duplicates/vim.rb
+
+alias vi='/usr/local/Cellar/vim/7.3.266/bin/vim'

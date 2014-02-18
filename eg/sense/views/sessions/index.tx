@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+<body>
+ログイン
+<br>
+: for $errors -> $error { 
+    : if $e.email.required {
+        未入力!
+    : }
+    : if $e.user_id.reuired { 
+        未入力!
+    : }
+: }
+
+<form action="/sessions/complete" method="POST">
+    <input type="text" name="user_id" value="<: $params.user_id :>">ユーザーID<br>
+    <input type="password" name="password" value="<: $params.password :>">パスワード<br>
+    <button type="submit" name="send" value="ボタン">ログイン</button>
+</form>
+</body>
+</html>

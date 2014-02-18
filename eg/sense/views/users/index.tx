@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+<body>
+会員登録
+<br>
+: for $errors -> $error { 
+    : if $e.email.required {
+        未入力!
+    : }
+    : if $e.user_id.reuired { 
+        未入力!
+    : }
+: }
+
+<form action="/users/confirm" method="POST">
+    <input type="text" name="username" value="<: $params.username :>">名前<br>
+    <input type="text" name="email" value="<: $params.email :>">メールアドレス<br>
+    <input type="password" name="password" value="<: $params.password :>">パスワード<br>
+    <input type="text" name="user_id" value="<: $params.user_id :>">ユーザー名<br>
+    <button type="submit" name="send" value="ボタン">登録</button>
+</form>
+</body>
+</html>

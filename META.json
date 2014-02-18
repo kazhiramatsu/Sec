@@ -1,0 +1,68 @@
+{
+   "abstract" : "Blah blah blah",
+   "author" : [
+      "Kazutake Hiramatsu <hiramatsu@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Milla version v1.0.4, Dist::Zilla version 5.005, CPAN::Meta::Converter version 2.120921",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Sec",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "xt",
+         "inc",
+         "share",
+         "eg",
+         "examples"
+      ]
+   },
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "Module::Build::Tiny" : "0.030"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Test::Pod" : "1.41"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "DBI" : "0",
+            "Digest::MD5" : "0",
+            "Email::MIME" : "0",
+            "Email::Sender" : "0",
+            "Email::Sender::Transport::SMTP" : "0",
+            "Exception::Class" : "0",
+            "IO::File" : "0",
+            "JSON::XS" : "0",
+            "LWP::Protocol::https" : "0",
+            "Module::Load" : "0",
+            "Path::Tiny" : "0",
+            "Perl6::Perl" : "0",
+            "Plack" : "0",
+            "Proclet" : "0",
+            "Router::Simple" : "0",
+            "Server::Starter" : "0",
+            "Starlet" : "0",
+            "Text::Xslate" : "0",
+            "Try::Tiny" : "0",
+            "URI::Escape" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "0.01",
+   "x_contributors" : [
+      "kazhiramatsu <kazhiramatsu.github@gmail.com>"
+   ]
+}
+

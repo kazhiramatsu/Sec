@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+<body>
+会員登録
+<br>
+<form action="/users/complete" method="POST">
+    名前<br>
+    <: $params.username :><br>
+    メールアドレス<br>
+    <: $params.email :><br>
+    パスワード<br>
+    <: $params.password :><br>
+    ユーザー名<br>
+    <: $params.user_id :><br>
+    <button type="submit" name="send" value="ボタン">登録</button>
+</form>
+</body>
+</html>
