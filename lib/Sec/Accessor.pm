@@ -97,8 +97,7 @@ sub instantiate {
         $self = init_with_default_or_builder($self, $meta, $seen, $args);
         if ($class->can('BUILD')) {
             no strict 'refs';
-            my $x = "${class}::".'BUILD';
-            &$x($self);
+            $self = $class->BUILD($self);
         }
     }
     $self;
