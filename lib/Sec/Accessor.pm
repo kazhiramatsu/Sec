@@ -95,9 +95,8 @@ sub instantiate {
         next unless $class->can('meta');
         my $meta = $class->meta;
         $self = init_with_default_or_builder($self, $meta, $seen, $args);
-        if ($class->can('BUILD')) {
-            no strict 'refs';
-            $self = $class->BUILD($self);
+        if ($self->can('BUILD')) {
+            $self = $self->BUILD;
         }
     }
     $self;
