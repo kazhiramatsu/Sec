@@ -170,8 +170,10 @@ sub finalize {
     my $res = shift;
     
     if (!$self->no_render && !$self->rendered) {
+        my $c = $self->routes->{controller};
+        $c =~ s/::/\//g;
         $res = $self->render(
-            lcfirst($self->routes->{controller}).'/'.$self->routes->{action}.'.'.($self->config->{view}->{ext}||'tx')
+            lc($c).'/'.$self->routes->{action}.'.'.($self->config->{view}->{ext}||'tx')
         );
         $self->res->body($res);
     } elsif ($self->rendered) {
