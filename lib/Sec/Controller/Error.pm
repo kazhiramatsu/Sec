@@ -8,6 +8,7 @@ sub render_404 {
     my $self = shift;
 
     $self->no_render(1);
+    $self->res->status(404);
     $self->res->body("404 not found");
 }
 
