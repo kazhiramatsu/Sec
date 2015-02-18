@@ -5,6 +5,7 @@ use Encode ();
 use Module::Load;
 use parent qw(Sec::Trigger);
 use Sec::Accessor;
+use File::Basename qw(basename);
 use Carp ();
 
 has 'app_root' => (
@@ -127,7 +128,7 @@ sub forward {
     if ($args{controller}) {
         $self->routes->{controller} = $args{controller};
         $self->routes->{package}
-            = join("::", ucfirst(basename($self->config->{app_root})),$args{controller},"Controller");
+            = join("::", ucfirst(basename($self->app_root)),$args{controller},"Controller");
 #        $self->routes->{shortname} = lcfirst((split(/(?<=::)/, $args{controller}))[-1]);
     }
 
