@@ -128,9 +128,8 @@ sub forward {
     if ($args{controller}) {
         $self->routes->{controller} = $args{controller};
         my $name = $args{controller};
-        $name =~ /^\+/ ? substr($name, 1) : $name;
-        $self->routes->{package}
-            = join("::", ucfirst(basename($self->app_root)),$name);
+        my $pkg = ($name =~ /^\+/ ? substr($name, 1) : $name);
+        $self->routes->{package} = $pkg;
 #        $self->routes->{shortname} = lcfirst((split(/(?<=::)/, $args{controller}))[-1]);
     }
 
