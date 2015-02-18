@@ -128,7 +128,7 @@ sub forward {
     if ($args{controller}) {
         $self->routes->{controller} = $args{controller};
         $self->routes->{package}
-            = join("::", ucfirst(basename($self->app_root)),$args{controller},"Controller");
+            = join("::", ucfirst(basename($self->app_root)),$self->get_package($args{controller}));
 #        $self->routes->{shortname} = lcfirst((split(/(?<=::)/, $args{controller}))[-1]);
     }
 
